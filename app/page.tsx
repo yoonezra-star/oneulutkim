@@ -34,14 +34,6 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">오늘의 생활 유머</p>
             <h1>{site.name}</h1>
-            <p>
-              빠르게 훑는 게시판 감성과 AdSense 심사를 고려한 운영 정보를 함께 갖춘
-              한국어 유머 사이트입니다. 직접 작성한 짧은 글로 일상 속 웃음을 정리합니다.
-            </p>
-            <div className="hero-actions">
-              <Link href="#latest">최신글 보기</Link>
-              <Link href="/about">운영 기준</Link>
-            </div>
           </div>
           <figure className="hero-visual">
             <Image
@@ -70,18 +62,6 @@ export default function Home() {
         </section>
 
         <IssueNavigator />
-
-        <section className="editor-note">
-          <div>
-            <p className="eyebrow">심사 준비형 운영 원칙</p>
-            <h2>펌글 저장소가 아니라 직접 쓴 생활 유머 큐레이션으로 운영합니다.</h2>
-          </div>
-          <p>
-            각 글은 제목만 모으지 않고 생활 맥락, 짧은 해설, 자체 문장을 포함합니다.
-            개인정보, 권리 침해, 혐오 표현, 과도한 자극성은 운영 기준에 따라 배제하며,
-            문의와 삭제 요청 절차를 명확히 공개합니다.
-          </p>
-        </section>
 
         <section id="latest" className="latest-section">
           <div className="section-title">

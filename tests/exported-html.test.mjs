@@ -27,6 +27,7 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
   assert.match(html, /조회순/);
   assert.match(html, /댓글순/);
   assert.match(html, /게시판/);
+  assert.doesNotMatch(html, /AdSense 심사|심사 준비형|빠르게 훑는|최신글 보기|운영 기준/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
 
