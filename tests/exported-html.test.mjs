@@ -24,6 +24,7 @@ test("exports a trust-focused homepage for Cloudflare Pages", async () => {
   assert.match(html, /\/privacy\//);
   assert.match(html, /\/advertising-policy\//);
   assert.match(html, /\/takedown\//);
+  assert.match(html, /<meta name="google-site-verification" content="9f9nGoLWpS9LLtN5zbmkgiOip8_w-X-aymNUa-UHD4M"/);
   assert.match(html, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1441018945572157/);
   assert.doesNotMatch(html, /Login|1,284|ad-slot|pub-0000000000000000/i);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);

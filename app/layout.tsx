@@ -3,6 +3,7 @@ import "./globals.css";
 import { site } from "./data";
 
 const adsenseClient = "ca-pub-1441018945572157";
+const googleSiteVerification = "9f9nGoLWpS9LLtN5zbmkgiOip8_w-X-aymNUa-UHD4M";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -69,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        <meta name="google-site-verification" content={googleSiteVerification} />
         <script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
