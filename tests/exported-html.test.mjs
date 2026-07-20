@@ -42,20 +42,20 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
 
 test("exports board, post, search, and strengthened policy pages", async () => {
   const files = [
-    "board/daily.html",
-    "posts/ramen-water-precision.html",
-    "search.html",
-    "about.html",
-    "editorial-policy.html",
-    "corrections.html",
-    "contact.html",
-    "privacy.html",
-    "cookie-policy.html",
-    "advertising-policy.html",
-    "terms.html",
-    "disclaimer.html",
-    "youth-protection.html",
-    "takedown.html",
+    "board/daily/index.html",
+    "posts/ramen-water-precision/index.html",
+    "search/index.html",
+    "about/index.html",
+    "editorial-policy/index.html",
+    "corrections/index.html",
+    "contact/index.html",
+    "privacy/index.html",
+    "cookie-policy/index.html",
+    "advertising-policy/index.html",
+    "terms/index.html",
+    "disclaimer/index.html",
+    "youth-protection/index.html",
+    "takedown/index.html",
   ];
 
   const pages = await Promise.all(files.map((file) => readOut(file)));
