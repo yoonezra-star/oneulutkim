@@ -1,3 +1,5 @@
+export const dynamic = "force-static";
+
 export function GET() {
   return new Response(
     "# Add your Google AdSense publisher line after account verification.\n",
