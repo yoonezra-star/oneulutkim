@@ -16,19 +16,27 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
   assert.match(html, /최신 게시물/);
   assert.match(html, /개인정보처리방침/);
   assert.match(html, /운영원칙/);
+  assert.match(html, /광고정책/);
+  assert.match(html, /쿠키정책/);
+  assert.match(html, /청소년보호정책/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
 
-test("exports board, post, search, and required policy pages", async () => {
+test("exports board, post, search, and strengthened policy pages", async () => {
   const files = [
     "board/daily.html",
     "posts/ramen-water-precision.html",
     "search.html",
     "about.html",
     "editorial-policy.html",
+    "corrections.html",
     "contact.html",
     "privacy.html",
+    "cookie-policy.html",
+    "advertising-policy.html",
     "terms.html",
+    "disclaimer.html",
+    "youth-protection.html",
     "takedown.html",
   ];
 
@@ -41,12 +49,20 @@ test("exports board, post, search, and required policy pages", async () => {
   assert.match(pages[1], /직접 작성한 생활 관찰형 유머 콘텐츠/);
   assert.match(pages[3], /운영 목적/);
   assert.match(pages[4], /광고 배치 원칙/);
+  assert.match(pages[5], /정정 제보 이메일/);
   assert.match(pages[5], /chw1914@gmail.com/);
-  assert.match(pages[6], /Google AdSense/);
-  assert.match(pages[6], /쿠키/);
-  assert.match(pages[7], /부정 클릭/);
-  assert.match(pages[8], /삭제 요청 이메일/);
-  assert.match(pages[8], /chw1914@gmail.com/);
+  assert.match(pages[6], /빠른 접수 경로/);
+  assert.match(pages[7], /Google AdSense/);
+  assert.match(pages[7], /쿠키/);
+  assert.match(pages[8], /Google 광고 쿠키/);
+  assert.match(pages[8], /Google 내 광고 센터/);
+  assert.match(pages[9], /무효 클릭/);
+  assert.match(pages[9], /Google AdSense/);
+  assert.match(pages[10], /부정 클릭/);
+  assert.match(pages[11], /전문 자문이 아닙니다/);
+  assert.match(pages[12], /청소년에게 유해/);
+  assert.match(pages[13], /삭제 요청 이메일/);
+  assert.match(pages[13], /chw1914@gmail.com/);
 });
 
 test("exports crawler and adsense preparation files", async () => {
@@ -61,4 +77,9 @@ test("exports crawler and adsense preparation files", async () => {
   assert.match(robots, /Allow: \//);
   assert.match(sitemap, /https:\/\/oneulutkim\.pages\.dev/);
   assert.match(sitemap, /editorial-policy/);
+  assert.match(sitemap, /corrections/);
+  assert.match(sitemap, /cookie-policy/);
+  assert.match(sitemap, /advertising-policy/);
+  assert.match(sitemap, /disclaimer/);
+  assert.match(sitemap, /youth-protection/);
 });

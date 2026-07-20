@@ -39,6 +39,26 @@ export const metadata: Metadata = {
   },
 };
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  url: site.url,
+  description: site.description,
+  inLanguage: "ko-KR",
+  publisher: {
+    "@type": "Organization",
+    name: site.owner,
+    email: site.contactEmail,
+    url: site.url,
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${site.url}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -46,7 +66,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

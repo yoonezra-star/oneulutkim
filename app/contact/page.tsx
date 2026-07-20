@@ -31,6 +31,14 @@ export default function ContactPage() {
         <li>저작권, 초상권, 명예훼손 등 권리 침해 신고</li>
       </ul>
 
+      <h2>빠른 접수 경로</h2>
+      <p>
+        오탈자나 사실관계 수정은 <a href="/corrections">정정·제보</a>, 광고 관련 문의는{" "}
+        <a href="/advertising-policy">광고정책</a>, 청소년에게 부적절한 콘텐츠 신고는{" "}
+        <a href="/youth-protection">청소년보호정책</a>을 먼저 확인하면 필요한 정보를 더
+        빠르게 정리할 수 있습니다.
+      </p>
+
       <h2>권리 침해 또는 삭제 요청</h2>
       <p>
         게시물 삭제, 비공개, 출처 정정이 필요한 경우에는 <a href="/takedown">삭제요청</a>{" "}

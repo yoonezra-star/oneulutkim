@@ -2,6 +2,20 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { categories, getCategoryName, type Post, site } from "./data";
 
+const policyLinks = [
+  { href: "/about", label: "사이트 소개" },
+  { href: "/editorial-policy", label: "운영원칙" },
+  { href: "/corrections", label: "정정·제보" },
+  { href: "/privacy", label: "개인정보처리방침" },
+  { href: "/cookie-policy", label: "쿠키정책" },
+  { href: "/advertising-policy", label: "광고정책" },
+  { href: "/terms", label: "이용약관" },
+  { href: "/disclaimer", label: "면책고지" },
+  { href: "/youth-protection", label: "청소년보호정책" },
+  { href: "/takedown", label: "삭제요청" },
+  { href: "/contact", label: "문의" },
+];
+
 export function SiteHeader() {
   return (
     <header className="site-header">
@@ -51,12 +65,11 @@ export function SiteFooter() {
         <p>운영 문의: {site.contactEmail}</p>
       </div>
       <nav aria-label="하단 정보">
-        <Link href="/about">사이트 소개</Link>
-        <Link href="/editorial-policy">운영원칙</Link>
-        <Link href="/privacy">개인정보처리방침</Link>
-        <Link href="/terms">이용약관</Link>
-        <Link href="/takedown">삭제요청</Link>
-        <Link href="/contact">문의</Link>
+        {policyLinks.map((link) => (
+          <Link key={link.href} href={link.href}>
+            {link.label}
+          </Link>
+        ))}
       </nav>
     </footer>
   );
@@ -128,7 +141,19 @@ export function InfoPage({
       <main className="info-page">
         <p className="eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
-        <div className="info-content">{children}</div>
+        <div className="info-content">
+          {children}
+          <nav className="policy-nav" aria-label="운영 문서 바로가기">
+            <strong>운영 문서</strong>
+            <div>
+              {policyLinks.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        </div>
       </main>
       <SiteFooter />
     </>

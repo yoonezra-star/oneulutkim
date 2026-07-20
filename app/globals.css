@@ -738,6 +738,30 @@ small {
   font-weight: 900;
 }
 
+.policy-nav {
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.policy-nav strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.policy-nav div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.policy-nav a {
+  color: var(--teal-dark);
+  font-weight: 900;
+  text-decoration: none;
+}
+
 @media (max-width: 900px) {
   .topline {
     grid-template-columns: 1fr;

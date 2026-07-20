@@ -61,7 +61,9 @@ export default function PrivacyPage() {
         >
           광고 기술 제공업체 목록
         </a>
-        도 확인할 수 있습니다.
+        도 확인할 수 있습니다. 오늘웃김의 광고 운영 기준은{" "}
+        <a href="/advertising-policy">광고정책</a>, 쿠키별 안내는{" "}
+        <a href="/cookie-policy">쿠키정책</a>을 함께 참고해 주세요.
       </p>
 
       <h2>4. 보관 기간</h2>
@@ -91,6 +93,8 @@ export default function PrivacyPage() {
         개인정보 보호와 관련한 문의, 정정, 삭제 요청은 운영 이메일{" "}
         <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a> 로 접수합니다.
         법령 또는 광고 정책 변경, 서비스 기능 변경이 있을 경우 이 방침을 업데이트합니다.
+        권리 침해가 우려되는 게시물은 <a href="/takedown">삭제요청</a>으로, 일반 오류는{" "}
+        <a href="/corrections">정정·제보</a>로 접수할 수 있습니다.
       </p>
     </InfoPage>
   );
