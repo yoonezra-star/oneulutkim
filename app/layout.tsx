@@ -3,17 +3,21 @@ import "./globals.css";
 import { site } from "./data";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://oneulutkim.pages.dev"),
+  metadataBase: new URL(site.url),
   title: {
     default: `${site.name} - 생활 유머 게시판`,
     template: `%s`,
   },
   description: site.description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: `${site.name} - 생활 유머 게시판`,
     description: site.description,
     type: "website",
     locale: "ko_KR",
+    url: site.url,
     images: [
       {
         url: "/og.png",

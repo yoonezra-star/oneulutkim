@@ -700,9 +700,23 @@ small {
   font-size: 1.18rem;
 }
 
+.policy-meta {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
 .info-content p,
 .info-content li {
   color: #3f4744;
+}
+
+.info-content a {
+  color: var(--teal-dark);
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .info-content ul {

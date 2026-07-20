@@ -22,6 +22,7 @@ export function SiteHeader() {
         </form>
         <nav className="utility-nav" aria-label="운영 정보">
           <Link href="/about">소개</Link>
+          <Link href="/editorial-policy">운영원칙</Link>
           <Link href="/contact">문의</Link>
           <Link href="/takedown">삭제요청</Link>
         </nav>
@@ -44,13 +45,17 @@ export function SiteFooter() {
       <div>
         <strong>{site.name}</strong>
         <p>
-          직접 작성한 생활 유머와 짧은 해설을 모으는 게시판형 큐레이션 사이트입니다.
+          직접 작성한 생활 유머와 짧은 에세이를 모아 게시판 형식으로 제공하는
+          한국어 유머 사이트입니다.
         </p>
+        <p>운영 문의: {site.contactEmail}</p>
       </div>
       <nav aria-label="하단 정보">
         <Link href="/about">사이트 소개</Link>
+        <Link href="/editorial-policy">운영원칙</Link>
         <Link href="/privacy">개인정보처리방침</Link>
         <Link href="/terms">이용약관</Link>
+        <Link href="/takedown">삭제요청</Link>
         <Link href="/contact">문의</Link>
       </nav>
     </footer>

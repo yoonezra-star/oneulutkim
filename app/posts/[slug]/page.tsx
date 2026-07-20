@@ -87,9 +87,8 @@ export default async function PostPage({ params }: PostPageProps) {
               ))}
             </div>
             <p>
-              이 글은 오늘웃김 편집 기준에 따라 직접 작성한 생활 관찰형 유머
-              콘텐츠입니다. 외부 자료가 포함될 경우 출처와 삭제 요청 절차를 함께
-              표시합니다.
+              이 글은 오늘웃김 운영 기준에 따라 직접 작성한 생활 관찰형 유머 콘텐츠입니다.
+              외부 자료가 포함된 경우 출처와 삭제 요청 절차를 함께 안내합니다.
             </p>
           </footer>
         </article>
