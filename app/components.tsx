@@ -14,6 +14,7 @@ import {
 } from "./data";
 
 const policyLinks = [
+  { href: "/archive", label: "전체글" },
   { href: "/about", label: "사이트 소개" },
   { href: "/editorial-policy", label: "운영원칙" },
   { href: "/corrections", label: "정정·제보" },
@@ -39,6 +40,7 @@ export function SiteHeader() {
           <span>직접 작성 콘텐츠</span>
           <Link href="/contact">문의하기</Link>
           <Link href="/search">검색하기</Link>
+          <Link href="/archive">전체글</Link>
           <Link href="/editorial-policy">운영원칙</Link>
         </div>
       </div>
@@ -178,7 +180,7 @@ export function CommunitySidebar({
 
   return (
     <aside className="community-sidebar" aria-label="커뮤니티 정보">
-      <section className="login-panel" aria-labelledby="operation-panel-title">
+      <section className="operation-panel" aria-labelledby="operation-panel-title">
         <h2 id="operation-panel-title">운영 안내</h2>
         <p>오늘웃김은 직접 작성한 짧은 생활 유머를 게시판 형식으로 정리합니다.</p>
         <div>

@@ -8,6 +8,17 @@ type PostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function toIsoDate(date: string) {
+  const match = date.match(/^(\d{2})\/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
+
+  if (!match) {
+    return "2026-07-20T00:00:00+09:00";
+  }
+
+  const [, year, month, day, hour, minute] = match;
+  return `20${year}-${month}-${day}T${hour}:${minute}:00+09:00`;
+}
+
 export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
@@ -27,6 +38,28 @@ export async function generateMetadata({
   return {
     title: `${post.title} - ${site.name}`,
     description: post.summary,
+    keywords: post.tags,
+    alternates: {
+      canonical: `/posts/${post.slug}/`,
+    },
+    openGraph: {
+      title: `${post.title} - ${site.name}`,
+      description: post.summary,
+      type: "article",
+      url: `/posts/${post.slug}/`,
+      siteName: site.name,
+      locale: "ko_KR",
+      publishedTime: toIsoDate(post.date),
+      authors: [post.author],
+      tags: post.tags,
+      images: ["/og.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} - ${site.name}`,
+      description: post.summary,
+      images: ["/og.png"],
+    },
   };
 }
 
@@ -41,11 +74,70 @@ export default async function PostPage({ params }: PostPageProps) {
   const related = posts
     .filter((candidate) => candidate.category === post.category && candidate.slug !== post.slug)
     .slice(0, 5);
+  const postUrl = `${site.url}/posts/${post.slug}/`;
+  const publishedAt = toIsoDate(post.date);
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: post.title,
+      description: post.summary,
+      image: `${site.url}/og.png`,
+      datePublished: publishedAt,
+      dateModified: publishedAt,
+      inLanguage: "ko-KR",
+      mainEntityOfPage: postUrl,
+      author: {
+        "@type": "Person",
+        name: post.author,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: site.owner,
+        url: site.url,
+        email: site.contactEmail,
+        logo: {
+          "@type": "ImageObject",
+          url: `${site.url}/og.png`,
+        },
+      },
+      articleSection: getCategoryName(post.category),
+      keywords: post.tags.join(", "),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "홈",
+          item: `${site.url}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: getCategoryName(post.category),
+          item: `${site.url}/board/${post.category}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: post.title,
+          item: postUrl,
+        },
+      ],
+    },
+  ];
 
   return (
     <>
       <SiteHeader />
       <main className="post-detail">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <nav className="breadcrumb" aria-label="현재 위치">
           <Link href="/">홈</Link>
           <span>/</span>

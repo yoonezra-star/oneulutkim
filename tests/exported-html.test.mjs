@@ -8,42 +8,32 @@ async function readOut(path) {
   return readFile(new URL(path, root), "utf8");
 }
 
-test("exports the humor board homepage for Cloudflare Pages", async () => {
+test("exports a trust-focused homepage for Cloudflare Pages", async () => {
   const html = await readOut("index.html");
 
-  assert.match(html, /오늘웃김/);
-  assert.match(html, /07월 20일\(월\)/);
-  assert.match(html, /오늘 많이 본 웃음/);
-  assert.match(html, /베스트 오브 베스트/);
-  assert.match(html, /최신 게시물/);
-  assert.match(html, /카테고리별 업데이트/);
-  assert.match(html, /운영 안내/);
-  assert.match(html, /최근 글/);
-  assert.match(html, /정책 바로가기/);
-  assert.match(html, /인기 글/);
-  assert.match(html, /전체 글/);
-  assert.match(html, /운영문서/);
-  assert.match(html, /개인정보처리방침/);
-  assert.match(html, /운영원칙/);
-  assert.match(html, /광고정책/);
-  assert.match(html, /쿠키정책/);
-  assert.match(html, /청소년보호정책/);
-  assert.match(html, /오늘의 웃음 이슈/);
-  assert.match(html, /핫이슈 Top 10/);
-  assert.match(html, /이슈 태그 Top30/);
-  assert.match(html, /빠른검색/);
-  assert.match(html, /추천순/);
-  assert.match(html, /조회순/);
-  assert.match(html, /댓글순/);
-  assert.match(html, /게시판/);
-  assert.doesNotMatch(html, /AdSense 심사|심사 준비형|빠르게 훑는|최신글 보기|운영 기준|접속자 1,284|Login/);
+  assert.match(html, /<html lang="ko">/);
+  assert.match(html, /operation-panel-title/);
+  assert.match(html, /latest-panel-title/);
+  assert.match(html, /policy-panel-title/);
+  assert.match(html, /best-panel-title/);
+  assert.match(html, /editor-note-title/);
+  assert.match(html, /digest-title/);
+  assert.match(html, /office-printer-paper-truce/);
+  assert.match(html, /subway-door-position-science/);
+  assert.match(html, /\/archive\//);
+  assert.match(html, /\/privacy\//);
+  assert.match(html, /\/advertising-policy\//);
+  assert.match(html, /\/takedown\//);
+  assert.doesNotMatch(html, /Login|1,284|ad-slot|pub-0000000000000000/i);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
 
-test("exports board, post, search, and strengthened policy pages", async () => {
+test("exports board, archive, article, search, and policy pages", async () => {
   const files = [
     "board/daily/index.html",
+    "archive/index.html",
     "posts/ramen-water-precision/index.html",
+    "posts/office-printer-paper-truce/index.html",
     "search/index.html",
     "about/index.html",
     "editorial-policy/index.html",
@@ -60,30 +50,23 @@ test("exports board, post, search, and strengthened policy pages", async () => {
 
   const pages = await Promise.all(files.map((file) => readOut(file)));
   for (const html of pages) {
-    assert.match(html, /오늘웃김/);
+    assert.match(html, /<html lang="ko">/);
   }
 
-  assert.match(pages[1], /라면 물 맞추기/);
-  assert.match(pages[1], /직접 작성한 생활 관찰형 유머 콘텐츠/);
-  assert.match(pages[0], /오늘의 웃음 이슈/);
-  assert.match(pages[0], /핫이슈 Top 10/);
-  assert.match(pages[0], /이슈 태그 Top30/);
-  assert.match(pages[3], /운영 목적/);
-  assert.match(pages[4], /광고 배치 원칙/);
-  assert.match(pages[5], /정정 제보 이메일/);
-  assert.match(pages[5], /chw1914@gmail.com/);
-  assert.match(pages[6], /빠른 접수 경로/);
-  assert.match(pages[7], /Google AdSense/);
-  assert.match(pages[7], /쿠키/);
-  assert.match(pages[8], /Google 광고 쿠키/);
-  assert.match(pages[8], /Google 내 광고 센터/);
-  assert.match(pages[9], /무효 클릭/);
+  assert.match(pages[0], /filter-matrix/);
+  assert.match(pages[0], /hot-keywords/);
+  assert.match(pages[1], /archive-all-title/);
+  assert.match(pages[1], /office-printer-paper-truce/);
+  assert.match(pages[2], /Article/);
+  assert.match(pages[2], /BreadcrumbList/);
+  assert.match(pages[3], /Article/);
+  assert.match(pages[3], /BreadcrumbList/);
+  assert.match(pages[4], /search-tools/);
+  assert.match(pages[8], /chw1914@gmail.com/);
   assert.match(pages[9], /Google AdSense/);
-  assert.match(pages[10], /부정 클릭/);
-  assert.match(pages[11], /전문 자문이 아닙니다/);
-  assert.match(pages[12], /청소년에게 유해/);
-  assert.match(pages[13], /삭제 요청 이메일/);
-  assert.match(pages[13], /chw1914@gmail.com/);
+  assert.match(pages[10], /Google/);
+  assert.match(pages[11], /Google AdSense/);
+  assert.match(pages[15], /chw1914@gmail.com/);
 });
 
 test("exports crawler and adsense preparation files", async () => {
@@ -96,11 +79,16 @@ test("exports crawler and adsense preparation files", async () => {
   assert.match(ads, /Add your Google AdSense publisher line/);
   assert.doesNotMatch(ads, /pub-0000000000000000/);
   assert.match(robots, /Allow: \//);
-  assert.match(sitemap, /https:\/\/oneulutkim\.pages\.dev/);
-  assert.match(sitemap, /editorial-policy/);
-  assert.match(sitemap, /corrections/);
-  assert.match(sitemap, /cookie-policy/);
-  assert.match(sitemap, /advertising-policy/);
-  assert.match(sitemap, /disclaimer/);
-  assert.match(sitemap, /youth-protection/);
+  assert.match(robots, /https:\/\/oneulutkim\.pages\.dev\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/oneulutkim\.pages\.dev\//);
+  assert.match(sitemap, /archive\//);
+  assert.match(sitemap, /search\//);
+  assert.match(sitemap, /board\/daily\//);
+  assert.match(sitemap, /posts\/office-printer-paper-truce\//);
+  assert.match(sitemap, /editorial-policy\//);
+  assert.match(sitemap, /corrections\//);
+  assert.match(sitemap, /cookie-policy\//);
+  assert.match(sitemap, /advertising-policy\//);
+  assert.match(sitemap, /disclaimer\//);
+  assert.match(sitemap, /youth-protection\//);
 });

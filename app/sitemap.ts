@@ -3,31 +3,37 @@ import { categories, posts } from "./data";
 
 export const dynamic = "force-static";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://oneulutkim.pages.dev";
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://oneulutkim.pages.dev").replace(
+  /\/$/,
+  "",
+);
+const routeUrl = (path = "") => `${siteUrl}/${path ? `${path}/` : ""}`;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date("2026-07-20T00:00:00+09:00");
 
   return [
     {
-      url: siteUrl,
+      url: routeUrl(),
       lastModified: now,
       changeFrequency: "daily",
       priority: 1,
     },
     ...categories.map((category) => ({
-      url: `${siteUrl}/board/${category.id}`,
+      url: routeUrl(`board/${category.id}`),
       lastModified: now,
       changeFrequency: "daily" as const,
       priority: 0.8,
     })),
     ...posts.map((post) => ({
-      url: `${siteUrl}/posts/${post.slug}`,
+      url: routeUrl(`posts/${post.slug}`),
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),
     ...[
+      "archive",
+      "search",
       "about",
       "editorial-policy",
       "corrections",
@@ -40,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "youth-protection",
       "takedown",
     ].map((path) => ({
-      url: `${siteUrl}/${path}`,
+      url: routeUrl(path),
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.5,

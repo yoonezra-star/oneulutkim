@@ -32,6 +32,18 @@ export async function generateMetadata({
   return {
     title: `${category.name} - ${site.name}`,
     description: category.description,
+    alternates: {
+      canonical: `/board/${category.id}/`,
+    },
+    openGraph: {
+      title: `${category.name} - ${site.name}`,
+      description: category.description,
+      type: "website",
+      url: `/board/${category.id}/`,
+      siteName: site.name,
+      locale: "ko_KR",
+      images: ["/og.png"],
+    },
   };
 }
 
