@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   categories,
+  getCategory,
   getCategoryName,
   getIssueKeywords,
   quickSearchLinks,
@@ -199,6 +200,49 @@ export function IssueTagCloud({ posts: sourcePosts }: { posts?: Post[] }) {
             <small>{tag.count}</small>
           </Link>
         ))}
+      </div>
+    </section>
+  );
+}
+
+export function SearchTools({
+  query = "",
+  categoryId,
+  sortMode = "latest",
+}: {
+  query?: string;
+  categoryId?: string;
+  sortMode?: string;
+}) {
+  const category = categoryId ? getCategory(categoryId) : undefined;
+
+  return (
+    <section className="search-tools" aria-label="검색 필터">
+      <div>
+        <strong>게시판</strong>
+        <nav>
+          <Link href="/search?sort=latest">전체</Link>
+          {categories.map((item) => (
+            <Link key={item.id} href={`/search?category=${item.id}&sort=${sortMode}`}>
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+      </div>
+      <div>
+        <strong>정렬</strong>
+        <nav>
+          {sortOptions.map((option) => (
+            <Link
+              key={option.id}
+              href={`/search?${query ? `q=${encodeURIComponent(query)}&` : ""}${
+                category ? `category=${category.id}&` : ""
+              }sort=${option.id}`}
+            >
+              {option.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </section>
   );

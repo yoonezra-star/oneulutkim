@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { PostTable } from "../components";
-import { categories, filterPosts, getCategory, isSortMode, sortOptions } from "../data";
+import { PostTable, SearchTools } from "../components";
+import { filterPosts, getCategory, isSortMode, sortOptions } from "../data";
 
 export function SearchClient() {
   const searchParams = useSearchParams();
@@ -28,34 +28,7 @@ export function SearchClient() {
         </p>
       </section>
 
-      <section className="search-tools" aria-label="검색 필터">
-        <div>
-          <strong>게시판</strong>
-          <nav>
-            <a href="/search?sort=latest">전체</a>
-            {categories.map((item) => (
-              <a key={item.id} href={`/search?category=${item.id}&sort=${sortMode}`}>
-                {item.name}
-              </a>
-            ))}
-          </nav>
-        </div>
-        <div>
-          <strong>정렬</strong>
-          <nav>
-            {sortOptions.map((option) => (
-              <a
-                key={option.id}
-                href={`/search?${query ? `q=${encodeURIComponent(query)}&` : ""}${
-                  category ? `category=${category.id}&` : ""
-                }sort=${option.id}`}
-              >
-                {option.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </section>
+      <SearchTools query={query} categoryId={category?.id} sortMode={sortMode} />
 
       {hasFilter && results.length > 0 ? (
         <PostTable posts={results} />
