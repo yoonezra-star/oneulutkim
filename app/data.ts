@@ -21,7 +21,7 @@ export const site = {
   tagline: "가볍게 웃고 오래 남는 생활 유머 큐레이션",
   description:
     "오늘웃김은 일상, 회사, 디지털 생활에서 발견한 짧은 웃음을 원문성 있는 해설과 함께 정리하는 유머 매거진형 게시판입니다.",
-  contactEmail: "hello@example.com",
+  contactEmail: "chw1914@gmail.com",
 };
 
 export const categories: Array<{
