@@ -13,15 +13,16 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
 
   assert.match(html, /오늘웃김/);
   assert.match(html, /07월 20일\(월\)/);
-  assert.match(html, /접속자 1,284/);
   assert.match(html, /오늘 많이 본 웃음/);
   assert.match(html, /베스트 오브 베스트/);
   assert.match(html, /최신 게시물/);
   assert.match(html, /카테고리별 업데이트/);
-  assert.match(html, /Login/);
-  assert.match(html, /댓글/);
-  assert.match(html, /랭킹/);
-  assert.match(html, /광고/);
+  assert.match(html, /운영 안내/);
+  assert.match(html, /최근 글/);
+  assert.match(html, /정책 바로가기/);
+  assert.match(html, /인기 글/);
+  assert.match(html, /전체 글/);
+  assert.match(html, /운영문서/);
   assert.match(html, /개인정보처리방침/);
   assert.match(html, /운영원칙/);
   assert.match(html, /광고정책/);
@@ -35,7 +36,7 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
   assert.match(html, /조회순/);
   assert.match(html, /댓글순/);
   assert.match(html, /게시판/);
-  assert.doesNotMatch(html, /AdSense 심사|심사 준비형|빠르게 훑는|최신글 보기|운영 기준/);
+  assert.doesNotMatch(html, /AdSense 심사|심사 준비형|빠르게 훑는|최신글 보기|운영 기준|접속자 1,284|Login/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
 

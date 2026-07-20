@@ -25,7 +25,6 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const latest = posts.slice(0, 24);
-  const totalViews = posts.reduce((sum, post) => sum + post.views, 0);
   const categoryBoards = categories.map((category) => ({
     category,
     posts: posts.filter((post) => post.category === category.id).slice(0, 6),
@@ -42,16 +41,16 @@ export default function Home() {
           </div>
           <dl>
             <div>
-              <dt>새글</dt>
-              <dd>{latest.length}</dd>
-            </div>
-            <div>
-              <dt>조회</dt>
-              <dd>{totalViews.toLocaleString("ko-KR")}</dd>
+              <dt>전체 글</dt>
+              <dd>{posts.length}</dd>
             </div>
             <div>
               <dt>게시판</dt>
               <dd>{categories.length}</dd>
+            </div>
+            <div>
+              <dt>운영문서</dt>
+              <dd>11</dd>
             </div>
           </dl>
         </section>

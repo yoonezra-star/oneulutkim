@@ -36,10 +36,10 @@ export function SiteHeader() {
           <time dateTime="2026-07-20">07월 20일(월)</time>
         </div>
         <div>
-          <span>로그인 준비중</span>
+          <span>직접 작성 콘텐츠</span>
           <Link href="/contact">문의하기</Link>
           <Link href="/search">검색하기</Link>
-          <strong>접속자 1,284</strong>
+          <Link href="/editorial-policy">운영원칙</Link>
         </div>
       </div>
       <div className="topline">
@@ -167,28 +167,20 @@ export function CommunitySidebar({
   latestPosts: Post[];
   rankingPosts: Post[];
 }) {
-  const latestComments = latestPosts.slice(0, 8).map((post, index) => ({
-    post,
-    text: [
-      "오늘 이 글이 제일 편하게 읽혔어요",
-      "제목 보고 들어왔다가 끝까지 봤습니다",
-      "짧은데 장면이 바로 떠오르네요",
-      "이런 생활감 좋습니다",
-    ][index % 4],
-  }));
-  const memberRanking = [
-    ["웃담편집부", "95,720 P"],
-    ["문서요정", "88,170 P"],
-    ["밥상관찰자", "74,790 P"],
-    ["타건연구소", "69,810 P"],
-    ["식권위원회", "61,240 P"],
+  const policyShortcuts = [
+    { href: "/about", label: "사이트 소개" },
+    { href: "/editorial-policy", label: "운영원칙" },
+    { href: "/privacy", label: "개인정보" },
+    { href: "/advertising-policy", label: "광고정책" },
+    { href: "/takedown", label: "삭제요청" },
+    { href: "/contact", label: "문의하기" },
   ];
 
   return (
     <aside className="community-sidebar" aria-label="커뮤니티 정보">
-      <section className="login-panel" aria-labelledby="login-panel-title">
-        <h2 id="login-panel-title">Login</h2>
-        <p>회원 기능은 준비 중입니다. 문의와 제보는 운영 메일로 접수합니다.</p>
+      <section className="login-panel" aria-labelledby="operation-panel-title">
+        <h2 id="operation-panel-title">운영 안내</h2>
+        <p>오늘웃김은 직접 작성한 짧은 생활 유머를 게시판 형식으로 정리합니다.</p>
         <div>
           <Link href="/contact">문의하기</Link>
           <Link href="/corrections">정정·제보</Link>
@@ -205,33 +197,33 @@ export function CommunitySidebar({
         />
       </section>
 
-      <section className="sidebar-panel" aria-labelledby="comment-panel-title">
-        <h2 id="comment-panel-title">댓글</h2>
+      <section className="sidebar-panel" aria-labelledby="latest-panel-title">
+        <h2 id="latest-panel-title">최근 글</h2>
         <ol className="comment-list">
-          {latestComments.map(({ post, text }) => (
+          {latestPosts.slice(0, 8).map((post) => (
             <li key={post.slug}>
-              <Link href={`/posts/${post.slug}`}>{text}</Link>
-              <small>{post.author}</small>
+              <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+              <small>{getCategoryName(post.category)} · {post.date}</small>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="sidebar-panel" aria-labelledby="ranking-panel-title">
-        <h2 id="ranking-panel-title">랭킹</h2>
+      <section className="sidebar-panel" aria-labelledby="policy-panel-title">
+        <h2 id="policy-panel-title">정책 바로가기</h2>
         <ol className="member-ranking">
-          {memberRanking.map(([name, point], index) => (
-            <li key={name}>
+          {policyShortcuts.map((link, index) => (
+            <li key={link.href}>
               <span>{index + 1}</span>
-              <strong>{name}</strong>
-              <em>{point}</em>
+              <Link href={link.href}>{link.label}</Link>
+              <em>필수</em>
             </li>
           ))}
         </ol>
       </section>
 
       <section className="sidebar-panel" aria-labelledby="best-panel-title">
-        <h2 id="best-panel-title">추천글</h2>
+        <h2 id="best-panel-title">인기 글</h2>
         <ol className="side-posts">
           {rankingPosts.slice(0, 6).map((post) => (
             <li key={post.slug}>
@@ -240,10 +232,6 @@ export function CommunitySidebar({
             </li>
           ))}
         </ol>
-      </section>
-
-      <section className="ad-slot" aria-label="광고 영역">
-        <span>광고</span>
       </section>
     </aside>
   );

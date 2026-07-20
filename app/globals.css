@@ -403,8 +403,7 @@ main {
 .search-tools,
 .login-panel,
 .sidebar-panel,
-.sidebar-visual,
-.ad-slot {
+.sidebar-visual {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -994,6 +993,15 @@ small {
   white-space: nowrap;
 }
 
+.member-ranking a {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .member-ranking em {
   color: var(--color-text-inverse);
   font-size: var(--font-size-xs);
@@ -1008,20 +1016,6 @@ small {
 
 .side-posts span {
   color: var(--coral);
-  font-weight: 900;
-}
-
-.ad-slot {
-  display: grid;
-  min-height: 170px;
-  place-items: center;
-  border-style: dashed;
-  background: #f7f9fb;
-}
-
-.ad-slot span {
-  color: var(--muted);
-  font-size: var(--font-size-xs);
   font-weight: 900;
 }
 
