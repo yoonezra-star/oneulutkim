@@ -2,7 +2,7 @@ export const dynamic = "force-static";
 
 export function GET() {
   return new Response(
-    "# Add your Google AdSense publisher line after account verification.\n",
+    "google.com, pub-1441018945572157, DIRECT, f08c47fec0942fa0\n",
     {
       headers: {
         "content-type": "text/plain; charset=utf-8",

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { site } from "./data";
 
+const adsenseClient = "ca-pub-1441018945572157";
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -66,6 +68,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <script
           type="application/ld+json"

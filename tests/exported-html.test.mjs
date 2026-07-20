@@ -24,6 +24,7 @@ test("exports a trust-focused homepage for Cloudflare Pages", async () => {
   assert.match(html, /\/privacy\//);
   assert.match(html, /\/advertising-policy\//);
   assert.match(html, /\/takedown\//);
+  assert.match(html, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1441018945572157/);
   assert.doesNotMatch(html, /Login|1,284|ad-slot|pub-0000000000000000/i);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
@@ -76,7 +77,7 @@ test("exports crawler and adsense preparation files", async () => {
     readOut("sitemap.xml"),
   ]);
 
-  assert.match(ads, /Add your Google AdSense publisher line/);
+  assert.match(ads, /google\.com, pub-1441018945572157, DIRECT, f08c47fec0942fa0/);
   assert.doesNotMatch(ads, /pub-0000000000000000/);
   assert.match(robots, /Allow: \//);
   assert.match(robots, /https:\/\/oneulutkim\.pages\.dev\/sitemap\.xml/);
