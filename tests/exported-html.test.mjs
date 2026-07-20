@@ -12,8 +12,16 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
   const html = await readOut("index.html");
 
   assert.match(html, /오늘웃김/);
+  assert.match(html, /07월 20일\(월\)/);
+  assert.match(html, /접속자 1,284/);
+  assert.match(html, /오늘 많이 본 웃음/);
   assert.match(html, /베스트 오브 베스트/);
   assert.match(html, /최신 게시물/);
+  assert.match(html, /카테고리별 업데이트/);
+  assert.match(html, /Login/);
+  assert.match(html, /댓글/);
+  assert.match(html, /랭킹/);
+  assert.match(html, /광고/);
   assert.match(html, /개인정보처리방침/);
   assert.match(html, /운영원칙/);
   assert.match(html, /광고정책/);

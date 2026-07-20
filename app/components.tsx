@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -29,6 +30,18 @@ const policyLinks = [
 export function SiteHeader() {
   return (
     <header className="site-header">
+      <div className="utility-bar">
+        <div>
+          <a href="#latest">새글</a>
+          <time dateTime="2026-07-20">07월 20일(월)</time>
+        </div>
+        <div>
+          <span>로그인 준비중</span>
+          <Link href="/contact">문의하기</Link>
+          <Link href="/search">검색하기</Link>
+          <strong>접속자 1,284</strong>
+        </div>
+      </div>
       <div className="topline">
         <Link className="brand" href="/" aria-label={`${site.name} 홈`}>
           <span className="brand-mark">웃</span>
@@ -101,6 +114,138 @@ export function RankList({ title, posts }: { title: string; posts: Post[] }) {
         ))}
       </ol>
     </section>
+  );
+}
+
+export function CategoryBoard({
+  category,
+  posts,
+}: {
+  category: (typeof categories)[number];
+  posts: Post[];
+}) {
+  const [featured, ...items] = posts;
+
+  return (
+    <section className="category-board-card" aria-labelledby={`${category.id}-board`}>
+      <header>
+        <div>
+          <p className="eyebrow">BOARD</p>
+          <h2 id={`${category.id}-board`}>{category.name}</h2>
+        </div>
+        <Link href={`/board/${category.id}`}>더보기</Link>
+      </header>
+
+      {featured ? (
+        <Link className="featured-post" href={`/posts/${featured.slug}`}>
+          <span>{featured.label ?? "PICK"}</span>
+          <strong>{featured.title}</strong>
+          <em>
+            {featured.date} · 추천 {featured.recommends} · 댓글 {featured.comments}
+          </em>
+        </Link>
+      ) : (
+        <p className="empty-line">새 글을 준비 중입니다.</p>
+      )}
+
+      <ul>
+        {items.slice(0, 5).map((post) => (
+          <li key={post.slug}>
+            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+            <time>{post.date}</time>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export function CommunitySidebar({
+  latestPosts,
+  rankingPosts,
+}: {
+  latestPosts: Post[];
+  rankingPosts: Post[];
+}) {
+  const latestComments = latestPosts.slice(0, 8).map((post, index) => ({
+    post,
+    text: [
+      "오늘 이 글이 제일 편하게 읽혔어요",
+      "제목 보고 들어왔다가 끝까지 봤습니다",
+      "짧은데 장면이 바로 떠오르네요",
+      "이런 생활감 좋습니다",
+    ][index % 4],
+  }));
+  const memberRanking = [
+    ["웃담편집부", "95,720 P"],
+    ["문서요정", "88,170 P"],
+    ["밥상관찰자", "74,790 P"],
+    ["타건연구소", "69,810 P"],
+    ["식권위원회", "61,240 P"],
+  ];
+
+  return (
+    <aside className="community-sidebar" aria-label="커뮤니티 정보">
+      <section className="login-panel" aria-labelledby="login-panel-title">
+        <h2 id="login-panel-title">Login</h2>
+        <p>회원 기능은 준비 중입니다. 문의와 제보는 운영 메일로 접수합니다.</p>
+        <div>
+          <Link href="/contact">문의하기</Link>
+          <Link href="/corrections">정정·제보</Link>
+        </div>
+      </section>
+
+      <section className="sidebar-visual" aria-label="오늘웃김 대표 이미지">
+        <Image
+          src="/og.png"
+          alt="오늘웃김 대표 이미지"
+          width={1200}
+          height={630}
+          sizes="(max-width: 900px) 100vw, 320px"
+        />
+      </section>
+
+      <section className="sidebar-panel" aria-labelledby="comment-panel-title">
+        <h2 id="comment-panel-title">댓글</h2>
+        <ol className="comment-list">
+          {latestComments.map(({ post, text }) => (
+            <li key={post.slug}>
+              <Link href={`/posts/${post.slug}`}>{text}</Link>
+              <small>{post.author}</small>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="sidebar-panel" aria-labelledby="ranking-panel-title">
+        <h2 id="ranking-panel-title">랭킹</h2>
+        <ol className="member-ranking">
+          {memberRanking.map(([name, point], index) => (
+            <li key={name}>
+              <span>{index + 1}</span>
+              <strong>{name}</strong>
+              <em>{point}</em>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="sidebar-panel" aria-labelledby="best-panel-title">
+        <h2 id="best-panel-title">추천글</h2>
+        <ol className="side-posts">
+          {rankingPosts.slice(0, 6).map((post) => (
+            <li key={post.slug}>
+              <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+              <span>{post.recommends}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="ad-slot" aria-label="광고 영역">
+        <span>광고</span>
+      </section>
+    </aside>
   );
 }
 
