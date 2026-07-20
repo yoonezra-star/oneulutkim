@@ -1,6 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { categories, getCategoryName, type Post, site } from "./data";
+import {
+  categories,
+  getCategoryName,
+  getIssueKeywords,
+  quickSearchLinks,
+  sortOptions,
+  type CategoryId,
+  type Post,
+  site,
+} from "./data";
 
 const policyLinks = [
   { href: "/about", label: "사이트 소개" },
@@ -94,11 +103,113 @@ export function RankList({ title, posts }: { title: string; posts: Post[] }) {
   );
 }
 
+export function IssueNavigator({
+  activeCategory,
+  sourcePosts,
+}: {
+  activeCategory?: CategoryId;
+  sourcePosts?: Post[];
+}) {
+  const topTags = getIssueKeywords(10, sourcePosts);
+
+  return (
+    <section className="issue-navigator" aria-label="이슈 탐색">
+      <div className="issue-navigator-head">
+        <div>
+          <p className="eyebrow">커뮤니티 탐색</p>
+          <h2>오늘의 웃음 이슈</h2>
+        </div>
+        <time dateTime="2026-07-20T09:20:00+09:00">2026.07.20 09:20 갱신</time>
+      </div>
+
+      <div className="filter-matrix">
+        <div>
+          <strong>빠른검색</strong>
+          <nav aria-label="빠른검색">
+            {quickSearchLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <strong>게시판</strong>
+          <nav aria-label="게시판 필터">
+            <Link className={!activeCategory ? "is-active" : undefined} href="/">
+              전체
+            </Link>
+            {categories.map((category) => (
+              <Link
+                className={activeCategory === category.id ? "is-active" : undefined}
+                key={category.id}
+                href={`/board/${category.id}`}
+              >
+                {category.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <strong>정렬</strong>
+          <nav aria-label="정렬">
+            {sortOptions.map((option) => (
+              <Link key={option.id} href={option.href}>
+                {option.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      <div className="hot-keywords">
+        <h3>핫이슈 Top 10</h3>
+        <ol>
+          {topTags.map((keyword, index) => (
+            <li key={keyword.tag}>
+              <Link href={`/search?q=${encodeURIComponent(keyword.tag)}&sort=recommends`}>
+                <span>{index + 1}</span>
+                {keyword.tag}
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+export function IssueTagCloud({ posts: sourcePosts }: { posts?: Post[] }) {
+  const tags = getIssueKeywords(30, sourcePosts);
+
+  return (
+    <section className="tag-board" aria-label="이슈 태그">
+      <div className="section-title">
+        <div>
+          <p className="eyebrow">이슈 태그</p>
+          <h2>이슈 태그 Top30</h2>
+        </div>
+        <span>{tags.length}개 태그</span>
+      </div>
+      <div>
+        {tags.map((tag, index) => (
+          <Link key={tag.tag} href={`/search?q=${encodeURIComponent(tag.tag)}&sort=recommends`}>
+            <span>{index + 1}</span>
+            {tag.tag}
+            <small>{tag.count}</small>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function PostTable({ posts }: { posts: Post[] }) {
   return (
     <section className="post-list" aria-label="게시글 목록">
       <div className="table-head" role="row">
         <span>번호</span>
+        <span>게시판</span>
         <span>제목</span>
         <span>이름</span>
         <span>날짜</span>
@@ -108,17 +219,19 @@ export function PostTable({ posts }: { posts: Post[] }) {
       {posts.map((post) => (
         <article className="post-row" key={post.slug}>
           <span className="post-id">{post.id}</span>
+          <Link className="source-badge" href={`/board/${post.category}`}>
+            {getCategoryName(post.category)}
+          </Link>
           <h2>
             <Link href={`/posts/${post.slug}`}>
               {post.label ? <b>{post.label}</b> : null}
               {post.title}
               {post.comments > 0 ? <small>[{post.comments}]</small> : null}
             </Link>
-            <em>{getCategoryName(post.category)}</em>
           </h2>
-          <span>{post.author}</span>
-          <time>{post.date}</time>
-          <span>{post.views.toLocaleString("ko-KR")}</span>
+          <span className="post-author">{post.author}</span>
+          <time className="post-date">{post.date}</time>
+          <span className="post-views">{post.views.toLocaleString("ko-KR")}</span>
           <span className="recommend">{post.recommends}</span>
         </article>
       ))}

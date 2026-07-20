@@ -9,7 +9,14 @@ import {
   posts,
   site,
 } from "./data";
-import { PostTable, RankList, SiteFooter, SiteHeader } from "./components";
+import {
+  IssueNavigator,
+  IssueTagCloud,
+  PostTable,
+  RankList,
+  SiteFooter,
+  SiteHeader,
+} from "./components";
 
 export const metadata: Metadata = {
   title: `${site.name} - 생활 유머 게시판`,
@@ -62,6 +69,8 @@ export default function Home() {
           <RankList title="베스트 게시물" posts={bestPosts} />
         </section>
 
+        <IssueNavigator />
+
         <section className="editor-note">
           <div>
             <p className="eyebrow">심사 준비형 운영 원칙</p>
@@ -105,6 +114,8 @@ export default function Home() {
             })}
           </div>
         </section>
+
+        <IssueTagCloud />
       </main>
       <SiteFooter />
     </>

@@ -7,7 +7,7 @@ import {
   getPostsByCategory,
   site,
 } from "../../data";
-import { PostTable, SiteFooter, SiteHeader } from "../../components";
+import { IssueNavigator, IssueTagCloud, PostTable, SiteFooter, SiteHeader } from "../../components";
 
 type BoardPageProps = {
   params: Promise<{ category: string }>;
@@ -59,7 +59,9 @@ export default async function BoardPage({ params }: BoardPageProps) {
           <h1>{category.name}</h1>
           <p>{category.description}</p>
         </section>
+        <IssueNavigator activeCategory={category.id} sourcePosts={categoryPosts} />
         <PostTable posts={categoryPosts} />
+        <IssueTagCloud posts={categoryPosts} />
       </main>
       <SiteFooter />
     </>

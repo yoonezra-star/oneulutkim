@@ -1,4 +1,5 @@
 export type CategoryId = "daily" | "office" | "food" | "digital" | "culture";
+export type SortMode = "latest" | "recommends" | "views" | "comments";
 
 export type Post = {
   id: number;
@@ -57,6 +58,25 @@ export const categories: Array<{
     name: "문화수다",
     description: "방송, 음악, 책, 전시를 보고 나눈 작은 감상과 농담",
   },
+];
+
+export const quickSearchLinks = [
+  { label: "오늘", href: "/search?sort=latest" },
+  { label: "아침", href: "/search?q=아침&sort=latest" },
+  { label: "점심", href: "/search?q=점심&sort=latest" },
+  { label: "출근", href: "/search?q=출근&sort=latest" },
+  { label: "주말", href: "/search?q=주말&sort=latest" },
+];
+
+export const sortOptions: Array<{
+  id: SortMode;
+  label: string;
+  href: string;
+}> = [
+  { id: "recommends", label: "추천순", href: "/search?sort=recommends" },
+  { id: "views", label: "조회순", href: "/search?sort=views" },
+  { id: "comments", label: "댓글순", href: "/search?sort=comments" },
+  { id: "latest", label: "최신순", href: "/search?sort=latest" },
 ];
 
 export const posts: Post[] = [
@@ -560,14 +580,54 @@ export function getCategoryName(categoryId: CategoryId) {
   return getCategory(categoryId)?.name ?? "게시판";
 }
 
-export function searchPosts(query: string) {
+export function isCategoryId(categoryId: string): categoryId is CategoryId {
+  return categories.some((category) => category.id === categoryId);
+}
+
+export function isSortMode(sortMode: string): sortMode is SortMode {
+  return sortOptions.some((option) => option.id === sortMode);
+}
+
+export function sortPosts(postList: Post[], sortMode: SortMode = "latest") {
+  return [...postList].sort((a, b) => {
+    if (sortMode === "recommends") {
+      return b.recommends - a.recommends;
+    }
+
+    if (sortMode === "views") {
+      return b.views - a.views;
+    }
+
+    if (sortMode === "comments") {
+      return b.comments - a.comments;
+    }
+
+    return b.id - a.id;
+  });
+}
+
+export function filterPosts({
+  query = "",
+  category,
+  sort = "latest",
+}: {
+  query?: string;
+  category?: string;
+  sort?: string;
+}) {
   const normalized = query.trim().toLowerCase();
+  const validCategory = category && isCategoryId(category) ? category : undefined;
+  const validSort = sort && isSortMode(sort) ? sort : "latest";
 
-  if (!normalized) {
-    return [];
-  }
+  const filtered = posts.filter((post) => {
+    if (validCategory && post.category !== validCategory) {
+      return false;
+    }
 
-  return posts.filter((post) => {
+    if (!normalized) {
+      return true;
+    }
+
     const haystack = [
       post.title,
       post.summary,
@@ -580,6 +640,35 @@ export function searchPosts(query: string) {
 
     return haystack.includes(normalized);
   });
+
+  return sortPosts(filtered, validSort);
+}
+
+export function searchPosts(query: string) {
+  const normalized = query.trim();
+
+  if (!normalized) {
+    return [];
+  }
+
+  return filterPosts({ query: normalized });
+}
+
+export function getIssueKeywords(limit = 30, sourcePosts: Post[] = posts) {
+  const tagStats = new Map<string, { tag: string; count: number; score: number }>();
+
+  for (const post of sourcePosts) {
+    for (const tag of post.tags) {
+      const current = tagStats.get(tag) ?? { tag, count: 0, score: 0 };
+      current.count += 1;
+      current.score += post.recommends + post.comments * 2 + Math.floor(post.views / 100);
+      tagStats.set(tag, current);
+    }
+  }
+
+  return [...tagStats.values()]
+    .sort((a, b) => b.score - a.score || b.count - a.count || a.tag.localeCompare(b.tag, "ko"))
+    .slice(0, limit);
 }
 
 export const bestOfBest = [...posts]

@@ -19,6 +19,14 @@ test("exports the humor board homepage for Cloudflare Pages", async () => {
   assert.match(html, /광고정책/);
   assert.match(html, /쿠키정책/);
   assert.match(html, /청소년보호정책/);
+  assert.match(html, /오늘의 웃음 이슈/);
+  assert.match(html, /핫이슈 Top 10/);
+  assert.match(html, /이슈 태그 Top30/);
+  assert.match(html, /빠른검색/);
+  assert.match(html, /추천순/);
+  assert.match(html, /조회순/);
+  assert.match(html, /댓글순/);
+  assert.match(html, /게시판/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
 
@@ -47,6 +55,9 @@ test("exports board, post, search, and strengthened policy pages", async () => {
 
   assert.match(pages[1], /라면 물 맞추기/);
   assert.match(pages[1], /직접 작성한 생활 관찰형 유머 콘텐츠/);
+  assert.match(pages[0], /오늘의 웃음 이슈/);
+  assert.match(pages[0], /핫이슈 Top 10/);
+  assert.match(pages[0], /이슈 태그 Top30/);
   assert.match(pages[3], /운영 목적/);
   assert.match(pages[4], /광고 배치 원칙/);
   assert.match(pages[5], /정정 제보 이메일/);
