@@ -7,7 +7,7 @@ const siteUrl = site.url.replace(/\/$/, "");
 const routeUrl = (path = "") => `${siteUrl}/${path ? `${path}/` : ""}`;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date("2026-07-22T00:00:00+09:00");
+  const now = new Date("2026-07-22T00:00:00Z");
 
   return [
     {
