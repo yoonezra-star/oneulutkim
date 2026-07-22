@@ -75,6 +75,18 @@ test("exports board, archive, article, search, and policy pages", async () => {
   assert.match(pages[15], /chw1914@gmail.com/);
 });
 
+test("exports strengthened body copy for previously short posts", async () => {
+  const [ramen, notification] = await Promise.all([
+    readOut("posts/ramen-water-precision/index.html"),
+    readOut("posts/notification-badge-weight/index.html"),
+  ]);
+
+  assert.match(ramen, /라면 물의 기준/);
+  assert.match(ramen, /라면 물을 맞추는 사람의 표정/);
+  assert.match(notification, /알림 배지의 숫자/);
+  assert.match(notification, /알림 배지의 무게/);
+});
+
 test("exports crawler and adsense preparation files", async () => {
   const [ads, robots, sitemap] = await Promise.all([
     readOut("ads.txt"),
