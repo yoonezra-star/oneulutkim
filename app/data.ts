@@ -25,7 +25,7 @@ export const site = {
   contactEmail: "chw1914@gmail.com",
   url: "https://oneulutkim.kr",
   owner: "오늘웃김 편집팀",
-  updatedAt: "2026년 7월 20일",
+  updatedAt: "2026년 7월 22일",
 };
 
 export const categories: Array<{
