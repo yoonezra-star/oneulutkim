@@ -128,8 +128,8 @@ export default function Home() {
             </section>
 
             <section className="rank-grid">
-              <RankList title="베스트 오브 베스트" posts={bestOfBest} />
-              <RankList title="베스트 게시물" posts={bestPosts} />
+              <RankList title="편집 추천 글" posts={bestOfBest} />
+              <RankList title="깊게 읽는 글" posts={bestPosts} />
             </section>
 
             <section id="latest" className="latest-section">

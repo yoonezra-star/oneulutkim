@@ -1488,7 +1488,7 @@ small {
   }
 
   .post-views::before {
-    content: "조회 ";
+    content: "읽기 ";
     color: var(--muted);
   }
 

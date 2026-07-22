@@ -73,9 +73,9 @@ export const sortOptions: Array<{
   label: string;
   href: string;
 }> = [
-  { id: "recommends", label: "추천순", href: "/search?sort=recommends" },
-  { id: "views", label: "조회순", href: "/search?sort=views" },
-  { id: "comments", label: "댓글순", href: "/search?sort=comments" },
+  { id: "recommends", label: "편집추천순", href: "/search?sort=recommends" },
+  { id: "views", label: "긴 글순", href: "/search?sort=views" },
+  { id: "comments", label: "토픽순", href: "/search?sort=comments" },
   { id: "latest", label: "최신순", href: "/search?sort=latest" },
 ];
 
@@ -1399,18 +1399,41 @@ export function isSortMode(sortMode: string): sortMode is SortMode {
   return sortOptions.some((option) => option.id === sortMode);
 }
 
+export function getPostTextLength(post: Post) {
+  return [post.title, post.summary, ...post.body].join("").length;
+}
+
+export function getReadingMinutes(post: Post) {
+  return Math.max(1, Math.ceil(getPostTextLength(post) / 500));
+}
+
+export function getEditorialScore(post: Post) {
+  return Math.min(
+    99,
+    40 +
+      post.tags.length * 4 +
+      post.body.length * 5 +
+      (post.label ? 8 : 0) +
+      Math.floor(getPostTextLength(post) / 120),
+  );
+}
+
+export function getTopicScore(post: Post) {
+  return post.tags.length * 10 + post.body.length * 4 + (post.label ? 8 : 0);
+}
+
 export function sortPosts(postList: Post[], sortMode: SortMode = "latest") {
   return [...postList].sort((a, b) => {
     if (sortMode === "recommends") {
-      return b.recommends - a.recommends;
+      return getEditorialScore(b) - getEditorialScore(a);
     }
 
     if (sortMode === "views") {
-      return b.views - a.views;
+      return getPostTextLength(b) - getPostTextLength(a);
     }
 
     if (sortMode === "comments") {
-      return b.comments - a.comments;
+      return getTopicScore(b) - getTopicScore(a);
     }
 
     return b.id - a.id;
@@ -1472,7 +1495,7 @@ export function getIssueKeywords(limit = 30, sourcePosts: Post[] = posts) {
     for (const tag of post.tags) {
       const current = tagStats.get(tag) ?? { tag, count: 0, score: 0 };
       current.count += 1;
-      current.score += post.recommends + post.comments * 2 + Math.floor(post.views / 100);
+      current.score += getEditorialScore(post) + Math.floor(getPostTextLength(post) / 100);
       tagStats.set(tag, current);
     }
   }
@@ -1483,9 +1506,9 @@ export function getIssueKeywords(limit = 30, sourcePosts: Post[] = posts) {
 }
 
 export const bestOfBest = [...posts]
-  .sort((a, b) => b.recommends - a.recommends)
+  .sort((a, b) => getEditorialScore(b) - getEditorialScore(a))
   .slice(0, 12);
 
 export const bestPosts = [...posts]
-  .sort((a, b) => b.comments + b.views / 100 - (a.comments + a.views / 100))
+  .sort((a, b) => getPostTextLength(b) - getPostTextLength(a))
   .slice(0, 12);

@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCategoryName, getPost, posts, site } from "../../data";
+import {
+  getCategoryName,
+  getEditorialScore,
+  getPost,
+  getReadingMinutes,
+  posts,
+  site,
+} from "../../data";
 import { SiteFooter, SiteHeader } from "../../components";
 
 type PostPageProps = {
@@ -157,12 +164,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 <dd>{post.date}</dd>
               </div>
               <div>
-                <dt>조회</dt>
-                <dd>{post.views.toLocaleString("ko-KR")}</dd>
+                <dt>읽는 시간</dt>
+                <dd>{getReadingMinutes(post)}분</dd>
               </div>
               <div>
-                <dt>추천</dt>
-                <dd>{post.recommends}</dd>
+                <dt>편집 점수</dt>
+                <dd>{getEditorialScore(post)}</dd>
               </div>
             </dl>
           </header>
@@ -191,7 +198,7 @@ export default async function PostPage({ params }: PostPageProps) {
             {related.map((item) => (
               <li key={item.slug}>
                 <Link href={`/posts/${item.slug}`}>{item.title}</Link>
-                <span>{item.recommends}</span>
+                <span>{getReadingMinutes(item)}분</span>
               </li>
             ))}
           </ul>

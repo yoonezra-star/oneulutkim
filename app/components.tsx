@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   categories,
+  getEditorialScore,
   getCategory,
   getCategoryName,
   getIssueKeywords,
+  getReadingMinutes,
   quickSearchLinks,
   sortOptions,
   type CategoryId,
@@ -107,10 +109,10 @@ export function RankList({ title, posts }: { title: string; posts: Post[] }) {
       <ol>
         {posts.map((post) => (
           <li key={post.slug}>
-            <span className="score">{post.recommends}</span>
+            <span className="score">{getEditorialScore(post)}</span>
             <Link href={`/posts/${post.slug}`}>
               {post.title}
-              {post.comments > 0 ? <small>[{post.comments}]</small> : null}
+              <small>{getReadingMinutes(post)}분</small>
             </Link>
           </li>
         ))}
@@ -143,7 +145,7 @@ export function CategoryBoard({
           <span>{featured.label ?? "PICK"}</span>
           <strong>{featured.title}</strong>
           <em>
-            {featured.date} · 추천 {featured.recommends} · 댓글 {featured.comments}
+            {featured.date} · 읽기 {getReadingMinutes(featured)}분 · 편집 {getEditorialScore(featured)}
           </em>
         </Link>
       ) : (
@@ -230,7 +232,7 @@ export function CommunitySidebar({
           {rankingPosts.slice(0, 6).map((post) => (
             <li key={post.slug}>
               <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-              <span>{post.recommends}</span>
+              <span>{getEditorialScore(post)}</span>
             </li>
           ))}
         </ol>
@@ -392,8 +394,8 @@ export function PostTable({ posts }: { posts: Post[] }) {
         <span>제목</span>
         <span>이름</span>
         <span>날짜</span>
-        <span>조회</span>
-        <span>추천</span>
+        <span>읽기</span>
+        <span>편집</span>
       </div>
       {posts.map((post) => (
         <article className="post-row" key={post.slug}>
@@ -405,13 +407,13 @@ export function PostTable({ posts }: { posts: Post[] }) {
             <Link href={`/posts/${post.slug}`}>
               {post.label ? <b>{post.label}</b> : null}
               {post.title}
-              {post.comments > 0 ? <small>[{post.comments}]</small> : null}
+              <small>{getReadingMinutes(post)}분</small>
             </Link>
           </h2>
           <span className="post-author">{post.author}</span>
           <time className="post-date">{post.date}</time>
-          <span className="post-views">{post.views.toLocaleString("ko-KR")}</span>
-          <span className="recommend">{post.recommends}</span>
+          <span className="post-views">{getReadingMinutes(post)}분</span>
+          <span className="recommend">{getEditorialScore(post)}</span>
         </article>
       ))}
     </section>
