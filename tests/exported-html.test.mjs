@@ -27,6 +27,7 @@ test("exports a trust-focused homepage for Cloudflare Pages", async () => {
   assert.match(html, /<link rel="canonical" href="https:\/\/oneulutkim\.kr\/"/);
   assert.match(html, /<meta property="og:url" content="https:\/\/oneulutkim\.kr\/"/);
   assert.match(html, /<meta name="google-site-verification" content="9f9nGoLWpS9LLtN5zbmkgiOip8_w-X-aymNUa-UHD4M"/);
+  assert.match(html, /<meta name="google-site-verification" content="Z6quXrXvnnQHQy83CW_e3ndk5zP87WJsJVD1wN3rMQI"/);
   assert.match(html, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1441018945572157/);
   assert.doesNotMatch(html, /oneulutkim\.pages\.dev/);
   assert.doesNotMatch(html, /Login|1,284|ad-slot|pub-0000000000000000/i);
