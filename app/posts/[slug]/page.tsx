@@ -81,6 +81,9 @@ export default async function PostPage({ params }: PostPageProps) {
   const related = posts
     .filter((candidate) => candidate.category === post.category && candidate.slug !== post.slug)
     .slice(0, 5);
+  const postIndex = posts.findIndex((candidate) => candidate.slug === post.slug);
+  const previousPost = postIndex > 0 ? posts[postIndex - 1] : undefined;
+  const nextPost = postIndex >= 0 && postIndex < posts.length - 1 ? posts[postIndex + 1] : undefined;
   const postUrl = `${site.url}/posts/${post.slug}/`;
   const publishedAt = toIsoDate(post.date);
   const structuredData = [
@@ -182,7 +185,9 @@ export default async function PostPage({ params }: PostPageProps) {
           <footer className="article-foot">
             <div className="tags" aria-label="태그">
               {post.tags.map((tag) => (
-                <span key={tag}>#{tag}</span>
+                <Link key={tag} href={`/search?q=${encodeURIComponent(tag)}&sort=recommends`}>
+                  #{tag}
+                </Link>
               ))}
             </div>
             <p>
@@ -191,6 +196,17 @@ export default async function PostPage({ params }: PostPageProps) {
             </p>
           </footer>
         </article>
+
+        <nav className="article-nav" aria-label="이전 다음 글">
+          <Link href={previousPost ? `/posts/${previousPost.slug}` : "/archive"}>
+            <span>이전 글</span>
+            <strong>{previousPost?.title ?? "전체 글 보기"}</strong>
+          </Link>
+          <Link href={nextPost ? `/posts/${nextPost.slug}` : "/"}>
+            <span>다음 글</span>
+            <strong>{nextPost?.title ?? "최신 글 보기"}</strong>
+          </Link>
+        </nav>
 
         <aside className="related-posts">
           <h2>같은 게시판 글</h2>

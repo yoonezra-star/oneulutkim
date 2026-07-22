@@ -83,6 +83,8 @@ test("exports strengthened body copy for previously short posts", async () => {
 
   assert.match(ramen, /라면 물의 기준/);
   assert.match(ramen, /라면 물을 맞추는 사람의 표정/);
+  assert.match(ramen, /href="\/search\/\?q=[^"]+amp;sort=recommends"/);
+  assert.match(ramen, /class="article-nav"/);
   assert.match(notification, /알림 배지의 숫자/);
   assert.match(notification, /알림 배지의 무게/);
 });
