@@ -23,7 +23,7 @@ export const site = {
   description:
     "오늘웃김은 일상, 직장, 음식, 디지털 생활, 문화 속 작은 웃음을 직접 쓴 짧은 이야기로 정리하는 한국어 유머 매거진입니다.",
   contactEmail: "chw1914@gmail.com",
-  url: "https://oneulutkim.pages.dev",
+  url: "https://oneulutkim.kr",
   owner: "오늘웃김 편집팀",
   updatedAt: "2026년 7월 20일",
 };

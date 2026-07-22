@@ -24,8 +24,11 @@ test("exports a trust-focused homepage for Cloudflare Pages", async () => {
   assert.match(html, /\/privacy\//);
   assert.match(html, /\/advertising-policy\//);
   assert.match(html, /\/takedown\//);
+  assert.match(html, /<link rel="canonical" href="https:\/\/oneulutkim\.kr\/"/);
+  assert.match(html, /<meta property="og:url" content="https:\/\/oneulutkim\.kr\/"/);
   assert.match(html, /<meta name="google-site-verification" content="9f9nGoLWpS9LLtN5zbmkgiOip8_w-X-aymNUa-UHD4M"/);
   assert.match(html, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1441018945572157/);
+  assert.doesNotMatch(html, /oneulutkim\.pages\.dev/);
   assert.doesNotMatch(html, /Login|1,284|ad-slot|pub-0000000000000000/i);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
@@ -81,8 +84,10 @@ test("exports crawler and adsense preparation files", async () => {
   assert.match(ads, /google\.com, pub-1441018945572157, DIRECT, f08c47fec0942fa0/);
   assert.doesNotMatch(ads, /pub-0000000000000000/);
   assert.match(robots, /Allow: \//);
-  assert.match(robots, /https:\/\/oneulutkim\.pages\.dev\/sitemap\.xml/);
-  assert.match(sitemap, /https:\/\/oneulutkim\.pages\.dev\//);
+  assert.match(robots, /https:\/\/oneulutkim\.kr\/sitemap\.xml/);
+  assert.doesNotMatch(robots, /oneulutkim\.pages\.dev/);
+  assert.match(sitemap, /https:\/\/oneulutkim\.kr\//);
+  assert.doesNotMatch(sitemap, /oneulutkim\.pages\.dev/);
   assert.match(sitemap, /archive\//);
   assert.match(sitemap, /search\//);
   assert.match(sitemap, /board\/daily\//);
