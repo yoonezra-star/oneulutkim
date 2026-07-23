@@ -1,0 +1,87 @@
+name: Scheduled post publish
+
+on:
+  schedule:
+    # Runs daily at 09:10 KST, then publishes only on the 3-day cadence below.
+    - cron: "10 0 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Publish using today's KST date even when it is not a scheduled day"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check publish cadence
+        id: cadence
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          today_kst="$(TZ=Asia/Seoul date +%F)"
+          start_date="2026-07-26"
+          force_publish="false"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            force_publish="${{ inputs.force }}"
+          fi
+
+          today_seconds="$(date -u -d "$today_kst" +%s)"
+          start_seconds="$(date -u -d "$start_date" +%s)"
+          days_since_start=$(( (today_seconds - start_seconds) / 86400 ))
+
+          if [ "$force_publish" != "true" ]; then
+            if [ "$days_since_start" -lt 0 ] || [ $((days_since_start % 3)) -ne 0 ]; then
+              echo "should_publish=false" >> "$GITHUB_OUTPUT"
+              echo "No scheduled post publish for $today_kst."
+              exit 0
+            fi
+          fi
+
+          echo "should_publish=true" >> "$GITHUB_OUTPUT"
+          echo "publish_until=${today_kst}T23:59:59+09:00" >> "$GITHUB_OUTPUT"
+          echo "today_kst=$today_kst" >> "$GITHUB_OUTPUT"
+
+      - name: Update publish cutoff
+        if: steps.cadence.outputs.should_publish == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cat > app/publish-schedule.ts <<EOF
+          export const publishCutoffDate = "${{ steps.cadence.outputs.publish_until }}";
+          EOF
+
+          node scripts/publish-scheduled-posts.mjs
+
+          if git diff --quiet -- app/publish-schedule.ts app/published-scheduled-posts.ts; then
+            echo "Publish cutoff is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/publish-schedule.ts app/published-scheduled-posts.ts
+          git commit -m "Publish scheduled posts for ${{ steps.cadence.outputs.today_kst }}"
+          git push

@@ -102,7 +102,7 @@ test("exports crawler and adsense preparation files", async () => {
   assert.match(robots, /https:\/\/oneulutkim\.kr\/sitemap\.xml/);
   assert.doesNotMatch(robots, /oneulutkim\.pages\.dev/);
   assert.match(sitemap, /https:\/\/oneulutkim\.kr\//);
-  assert.match(sitemap, /2026-07-22T00:00:00\.000Z/);
+  assert.match(sitemap, /2026-07-23T00:00:00\.000Z/);
   assert.doesNotMatch(sitemap, /oneulutkim\.pages\.dev/);
   assert.match(sitemap, /archive\//);
   assert.match(sitemap, /search\//);
