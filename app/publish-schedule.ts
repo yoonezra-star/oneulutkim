@@ -1,1 +1,1 @@
-export const publishCutoffDate = "2026-09-03T23:59:59+09:00";
+export const publishCutoffDate = "2026-09-06T23:59:59+09:00";
